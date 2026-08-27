@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.inicio, name='inicio_productos'), 
-    path('acerca/', views.acerca, name='acerca del producto'),
+    path('acerca/', views.acerca, name='acerca del producto'), # URL dentro de /productos
     path('api/', views.api_productos, name='api_productos'),
 ]

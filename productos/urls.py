@@ -6,4 +6,7 @@ urlpatterns = [
     path('acerca/', views.acerca, name='acerca del producto'), # URL dentro de /productos
     path('api/productos/', views.api_productos, name='api_productos'),
     path('api/productos/<int:pk>/', views.detalle_productos, name='detalle_producto'),
+    path('api/categorias/', views.api_categorias, name='api_categorias'),
+    path('api/categorias/<int:pk>/', views.detalle_categorias, name='detalle_categorias'),
+    path('api/categorias/resumen/', views.resumen_categorias, name='resumen_categorias')
 ]

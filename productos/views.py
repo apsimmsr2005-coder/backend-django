@@ -1,11 +1,11 @@
 from django.http import HttpResponse, JsonResponse
-from .models import Producto
+from .models import Producto, Categoria
 
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import ProductoSerializer
+from .serializers import ProductoSerializer, CategoriaSerializer
 
 def inicio(request):
     return HttpResponse('Modulo de productos activo y operativo') # Método para crear una respuesta HTTP
@@ -93,3 +93,70 @@ def detalle_productos(request, pk):
 #     return JsonResponse({'productos': list(productos)}) # Convertimos el QuerySet a lista para poder serializarlo a JSON
 
 
+@api_view(['GET', 'POST'])
+def api_categorias(request):
+    if request.method == 'GET':
+        categorias = Categoria.objects.all()
+        serializer = CategoriaSerializer(categorias, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = CategoriaSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+
+        return Response(
+            serializer.errors, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+@api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
+def detalle_categorias(request, pk):
+    try:
+        categoria = Categoria.objects.get(pk=pk)
+    except Categoria.DoesNotExist:
+        return Response(
+            {'error': 'categoria no encontrada'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    if request.method == 'GET':
+        serializer = CategoriaSerializer(categoria)
+        return Response(serializer.data)
+
+    if request.method in ['PUT', 'PATCH']:
+        serializer = CategoriaSerializer(
+            categoria,
+            data=request.data,
+            partial=(request.method == 'PATCH')
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if request.method == 'DELETE':
+        categoria.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def resumen_categorias(request):
+    activas = Categoria.objects.filter(activo=True).count()
+    inactivas = Categoria.objects.filter(activo=False).count()
+    total = Categoria.objects.count()
+
+    return Response({
+        'Total de categorias: ': total, 
+        ' activas: ':activas,
+        ' inactivas: ': inactivas
+    })

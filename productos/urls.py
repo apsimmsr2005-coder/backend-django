@@ -8,5 +8,7 @@ urlpatterns = [
     path('api/productos/<int:pk>/', views.detalle_productos, name='detalle_producto'),
     path('api/categorias/', views.api_categorias, name='api_categorias'),
     path('api/categorias/<int:pk>/', views.detalle_categorias, name='detalle_categorias'),
-    path('api/categorias/resumen/', views.resumen_categorias, name='resumen_categorias')
+    path('api/categorias/resumen/', views.resumen_categorias, name='resumen_categorias'),
+    path('api/perfil/',views.perfil, name='api_perfil'),
+    path('api/admin-info/',views.panel_admin_api, name='panel_admin_info'),
 ]

@@ -7,6 +7,27 @@ from rest_framework.response import Response
 
 from .serializers import ProductoSerializer, CategoriaSerializer
 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def perfil(request):
+    return Response({})
+
+# Crear un endpoint protegido
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def panel_admin_api(request):
+    return Response({
+        "mensaje": "Acceso administrativo permitido",
+    })
+
 def inicio(request):
     return HttpResponse('Modulo de productos activo y operativo') # Método para crear una respuesta HTTP
 

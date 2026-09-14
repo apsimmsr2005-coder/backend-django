@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'productos', # Ruta que se agrega
+    'rest_framework.authtoken',
+    'productos', # Ruta de la app productos
 ]
 
 MIDDLEWARE = [

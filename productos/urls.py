@@ -11,4 +11,5 @@ urlpatterns = [
     path('api/categorias/resumen/', views.resumen_categorias, name='resumen_categorias'),
     path('api/perfil/',views.perfil, name='api_perfil'),
     path('api/admin-info/',views.panel_admin_api, name='panel_admin_info'),
+    path('api/session/', views.contador_session, name='contador_session'),
 ]
